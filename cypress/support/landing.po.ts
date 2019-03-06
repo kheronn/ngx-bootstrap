@@ -2,9 +2,15 @@ import { BaseComponent } from './base.component';
 
 export class LandingPo extends BaseComponent {
   pageUrl = '/';
+  documentationUrl = '/documentation';
 
+  mainClass = '.main';
   logoAtHeader = '.logo';
   logoAtContent = '.content-logo';
+  headerSelector = '.header';
+  stackOverBtn = '[alt="stackoverflow"]';
+  gitHbBtn = '[alt="ngx on github"]';
+  slackNgxBtn = '[alt="ngx on slack"]';
   infoButtons = '.header-list';
   sloganBs = '.slogan';
   descriptionBs = '.descr';
@@ -21,4 +27,10 @@ export class LandingPo extends BaseComponent {
   mitLicenseUrl = 'https://github.com/valor-software/ngx-bootstrap/blob/development/LICENSE';
   crCommonsUrl = 'https://creativecommons.org/licenses/by/3.0/';
   originalBsUrl = 'https://getbootstrap.com/';
+
+  isSearchResultCorrect(descendantsQuantity: number, searchResult: string) {
+    cy.get('.sidebar-list').eq(1)
+      .should('have.descendants', 'li').invoke('text')
+      .should('contain', searchResult);
+  }
 }

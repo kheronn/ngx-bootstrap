@@ -192,4 +192,7 @@ export abstract class BaseComponent {
       .invoke('text')
       .should('to.contains', expectedTxt);
   }
+  isElementVisible(baseSelector: string, elementToFind: string, elemNumber = 0) {   // TODO remove after e2e-typeahead will be merged
+    cy.get(`${baseSelector} ${elementToFind}`).eq(elemNumber).should('be.visible');
+  }
 }

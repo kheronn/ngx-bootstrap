@@ -7,24 +7,20 @@ describe('Landing Page test suite', () => {
 
   describe('Content', () => {
 
-    it('header displays ngx-bootstrap logo and info buttons', () => {
-      cy.get(landing.logoAtHeader)
-        .should('be.visible');
-      cy.get(landing.infoButtons)
-        .should('be.visible');
+    it('header displays ngx-bootstrap logo and info buttons to the: stackoverflow, gitHub and slack', () => {
+      landing.isElementVisible(landing.headerSelector, landing.logoAtHeader);
+      landing.isElementVisible(landing.headerSelector, landing.infoButtons);
+      landing.isElementVisible(landing.headerSelector, landing.stackOverBtn);
+      landing.isElementVisible(landing.headerSelector, landing.gitHbBtn);
+      landing.isElementVisible(landing.headerSelector, landing.slackNgxBtn);
     });
 
     it('main content displays ngx-bootstrap logo, slogan, description, version and advantages block', () => {
-      cy.get(landing.logoAtContent)
-        .should('be.visible');
-      cy.get(landing.sloganBs)
-        .should('be.visible');
-      cy.get(landing.descriptionBs)
-        .should('be.visible');
-      cy.get(landing.versionBs)
-        .should('be.visible');
-      cy.get(landing.advantagesBs)
-        .should('be.visible');
+      landing.isElementVisible(landing.mainClass, landing.logoAtContent);
+      landing.isElementVisible(landing.mainClass, landing.sloganBs);
+      landing.isElementVisible(landing.mainClass, landing.descriptionBs);
+      landing.isElementVisible(landing.mainClass, landing.versionBs);
+      landing.isElementVisible(landing.mainClass, landing.advantagesBs);
     });
 
     it('footer contains links to ng-team, contributors, MIT license, Creative Commons, original Bootstrap', () => {
@@ -77,4 +73,18 @@ describe('Landing Page test suite', () => {
           .should('be.enabled'));
     });
   });
+
+  describe.only('Documentation page', () => {
+    const documentation = new LandingPo();
+
+    beforeEach(() => cy.visit(landing.documentationUrl));
+    const textToSend = 'drop';
+    const searchResult = 'Dropdowns';
+
+    it('Search on the Documentation page works correctly', () => {
+      landing.clearInputAndSendKeys('.sidebar-search', 'drop');
+      landing.isSearchResultCorrect(1, searchResult);
+    });
+  });
 });
+
