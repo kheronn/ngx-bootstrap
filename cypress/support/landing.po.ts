@@ -8,15 +8,18 @@ export class LandingPo extends BaseComponent {
   logoAtHeader = '.logo';
   logoAtContent = '.content-logo';
   headerSelector = '.header';
-  stackOverBtn = '[alt="stackoverflow"]';
-  gitHbBtn = '[alt="ngx on github"]';
-  slackNgxBtn = '[alt="ngx on slack"]';
+  stackOverBtn = 'li:nth-child(1) a';
+  gitHbBtn = 'li:nth-child(2) a';
+  slackNgxBtn = 'li:nth-child(3) a';
   infoButtons = '.header-list';
   sloganBs = '.slogan';
   descriptionBs = '.descr';
   versionBs = '.version';
   advantagesBs = '.advantages';
   navBtn = '.btn';
+  mobileMenu = '.mobile-menu';
+  mobileMenuBtn = '#mobile-main-menu';
+  mobileMenuOpened = 'isOpenMenu';
 
   stackoverflowUrl = 'https://stackoverflow.com/questions/tagged/ngx-bootstrap';
   githubUrl = 'https://github.com/valor-software/ngx-bootstrap';
@@ -28,9 +31,28 @@ export class LandingPo extends BaseComponent {
   crCommonsUrl = 'https://creativecommons.org/licenses/by/3.0/';
   originalBsUrl = 'https://getbootstrap.com/';
 
-  isSearchResultCorrect(descendantsQuantity: number, searchResult: string) {
+  isNavigateBtnExist(btnName: string, elementNumber: number) {
+    cy.get(this.navBtn).contains(btnName)
+      .should('be.enabled');
+  }
+
+  clickOnMenuBtn() {
+    cy.get(this.mobileMenuBtn).click();
+  }
+
+  isSearchResultCorrect(searchResult: string) {
     cy.get('.sidebar-list').eq(1)
       .should('have.descendants', 'li').invoke('text')
       .should('contain', searchResult);
+  }
+
+  isMobileMenuActive() {
+    cy.get('body').should('have.class', this.mobileMenuOpened);
+  }
+
+  isMenuHasDescendants(descen1Selector: string, descen2Selector: string) {
+    cy.get(this.mobileMenu).should('be.visible')
+      .and('have.descendants', descen1Selector)
+      .and('have.descendants', descen2Selector);
   }
 }

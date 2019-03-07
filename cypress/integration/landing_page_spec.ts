@@ -33,7 +33,7 @@ describe('Landing Page test suite', () => {
       ];
 
       footerLinks.forEach(link =>
-        cy.get(`footer [href="${ link }"]`).should('to.be.exist'));
+        landing.isElemHasCorrectUrl('footer', link));
     });
   });
 
@@ -43,22 +43,16 @@ describe('Landing Page test suite', () => {
       const searchedUrl = '/documentation';
 
       landing.clickByText(landing.navBtn, buttonText);
-
-      cy.url()
-        .should('include', searchedUrl);
+      landing.isUrlExist(searchedUrl);
     });
 
     it('Documentation button is enabled and contains link to documentation', () => {
       const buttonText = 'Documentation';
       const searchedUrl = '/documentation';
 
-      cy.get(landing.navBtn).contains(buttonText)
-        .should('be.enabled');
-
+      landing.isNavigateBtnExist(buttonText, 1);
       landing.clickByText(landing.navBtn, buttonText);
-
-      cy.url()
-        .should('include', searchedUrl);
+      landing.isUrlExist(searchedUrl);
     });
 
     it('Info buttons in header are enabled and contains links to slack, github and stackoverflow', () => {
@@ -69,21 +63,30 @@ describe('Landing Page test suite', () => {
       ];
 
       linksArr.forEach(link =>
-        cy.get(`${ landing.infoButtons } [href="${ link }"]`)
-          .should('be.enabled'));
+        landing.isElemHasCorrectUrl(landing.infoButtons, link)
+      );
     });
   });
 
-  describe.only('Documentation page', () => {
+  describe('Documentation page: Search and mobile view', () => {
     const documentation = new LandingPo();
 
     beforeEach(() => cy.visit(landing.documentationUrl));
     const textToSend = 'drop';
     const searchResult = 'Dropdowns';
+    const bootstrapVer = '.bootstrap-version';
+    const demosList = '.sidebar-content';
 
     it('Search on the Documentation page works correctly', () => {
-      landing.clearInputAndSendKeys('.sidebar-search', 'drop');
-      landing.isSearchResultCorrect(1, searchResult);
+      landing.clearInputAndSendKeys('.sidebar-search', textToSend);
+      landing.isSearchResultCorrect(searchResult);
+    });
+
+    it('Main-menu in mobile view', () => {
+      cy.viewport(375, 667);
+      landing.clickOnMenuBtn();
+      landing.isMobileMenuActive();
+      landing.isMenuHasDescendants(bootstrapVer, demosList);
     });
   });
 });
