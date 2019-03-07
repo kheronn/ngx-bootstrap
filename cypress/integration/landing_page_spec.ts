@@ -69,9 +69,8 @@ describe('Landing Page test suite', () => {
   });
 
   describe('Documentation page: Search and mobile view', () => {
-    const documentation = new LandingPo();
-
     beforeEach(() => cy.visit(landing.documentationUrl));
+
     const textToSend = 'drop';
     const searchResult = 'Dropdowns';
     const bootstrapVer = '.bootstrap-version';
@@ -87,6 +86,17 @@ describe('Landing Page test suite', () => {
       landing.clickOnMenuBtn();
       landing.isMobileMenuActive();
       landing.isMenuHasDescendants(bootstrapVer, demosList);
+    });
+
+    describe.only('Bootstrap version check', () => {
+      const versSelected = '.selected';
+      const bootStrapVer3 = '3';
+      const bootStrapVer4 = '4';
+
+      it('the 3rd version is ', () => {
+
+
+      });
     });
   });
 });

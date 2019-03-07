@@ -55,4 +55,8 @@ export class LandingPo extends BaseComponent {
       .and('have.descendants', descen1Selector)
       .and('have.descendants', descen2Selector);
   }
+
+  isBootstrapVerCorret(version: string) {
+    cy.get('.selected').invoke('text').should('contain', version);
+  }
 }
